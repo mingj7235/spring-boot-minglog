@@ -1,4 +1,4 @@
-package com.minglog.controller;
+package com.minglog.api.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,10 @@
-package com.minglog.controller;
+package com.minglog.api.controller;
 
-import com.minglog.request.PostCreate;
+import com.minglog.api.request.PostCreate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
@@ -15,5 +15,4 @@ public class PostController {
         log.info("params = {}", params.toString());
         return "Hello World";
     }
-
 }
