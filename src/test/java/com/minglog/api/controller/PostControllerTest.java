@@ -69,14 +69,16 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("/posts 요청시 title 값이 null 인경우")
-    void post_test_title_is_null() throws Exception {
+    @DisplayName("/posts 요청시 예외처리를 exception hander 에서 진행")
+    void post_test_exception_handler() throws Exception {
         mockMvc.perform(post("/posts")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"title\": null, \"content\" : \"내용입니다.\"}")
                 )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("타이틀을 입력해주세요."))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("400"))
+                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
+                .andExpect(jsonPath("$.validation.title").value("타이틀을 입력해주세요."))
                 .andDo(print());
 
     }
