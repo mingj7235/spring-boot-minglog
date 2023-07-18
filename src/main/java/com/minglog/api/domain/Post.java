@@ -1,6 +1,7 @@
 package com.minglog.api.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ public class Post {
     @Lob // DB 에서 Long Text 타입
     private String content;
 
+    @Builder
     public Post(final String title, final String content) {
         this.title = title;
         this.content = content;

@@ -1,5 +1,6 @@
 package com.minglog.api.request;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,5 +17,18 @@ public class PostCreate {
 
     @NotBlank(message = "컨텐츠를 입력해주세요.")
     private String content;
+
+    /**
+     * 빌더의 장점
+     * - 가독성에 좋다.
+     * - 값 생성에 대한 유연함.
+     * - 필요한 값만 받을 수 있다.
+     * - 객체의 불변성 ** 가장 중요!
+     */
+    @Builder
+    public PostCreate(final String title, final String content) {
+        this.title = title;
+        this.content = content;
+    }
 
 }
