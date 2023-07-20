@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -22,4 +24,12 @@ public class PostService {
 
         postRepository.save(post);
     }
+
+    public Post get(final Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 글 입니다."));
+
+        return post;
+    }
+
 }
