@@ -3,6 +3,7 @@ package com.minglog.api.service;
 import com.minglog.api.domain.Post;
 import com.minglog.api.repository.PostRepository;
 import com.minglog.api.request.PostCreate;
+import com.minglog.api.response.PostResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -58,13 +59,13 @@ class PostServiceTest {
         postRepository.save(requestPost);
 
         // when
-        Post post = postService.get(requestPost.getId());
+        PostResponse response = postService.get(requestPost.getId());
 
         // then
-        assertNotNull(post);
+        assertNotNull(response);
         assertEquals(1L, postRepository.count());
-        assertEquals("foo", post.getTitle());
-        assertEquals("bar", post.getContent());
+        assertEquals("foo", response.getTitle());
+        assertEquals("bar", response.getContent());
     }
 
 }
