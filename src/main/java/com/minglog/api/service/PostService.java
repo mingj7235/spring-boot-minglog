@@ -3,12 +3,10 @@ package com.minglog.api.service;
 import com.minglog.api.domain.Post;
 import com.minglog.api.repository.PostRepository;
 import com.minglog.api.request.PostCreate;
+import com.minglog.api.request.PostSearch;
 import com.minglog.api.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,9 +47,8 @@ public class PostService {
      * 2. WAS 로 전달하는 시간에 대한 트래픽 비용이 많이 발생 할 수 있다.
      */
 
-    public List<PostResponse> getList(Pageable pageable) {
-//        Pageable pageable = PageRequest.of(page, 5, Sort.by("id").descending());
-        return postRepository.findAll(pageable).stream()
+    public List<PostResponse> getList(PostSearch postSearch) {
+        return postRepository.getList(postSearch).stream()
                 .map(PostResponse::new)
                 .collect(Collectors.toList());
     }
