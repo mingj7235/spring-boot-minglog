@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -24,7 +26,7 @@ class PostServiceTest {
     private PostRepository postRepository;
 
     @BeforeEach
-    void clean () {
+    void clean() {
         postRepository.deleteAll();
     }
 
@@ -66,6 +68,29 @@ class PostServiceTest {
         assertEquals(1L, postRepository.count());
         assertEquals("foo", response.getTitle());
         assertEquals("bar", response.getContent());
+    }
+
+    @Test
+    @DisplayName("글 여러개 조회")
+    void test3() {
+        //given
+
+        postRepository.saveAll(List.of(
+                Post.builder()
+                        .title("foo1")
+                        .content("bar1")
+                        .build(),
+                Post.builder()
+                        .title("foo2")
+                        .content("bar2")
+                        .build()
+        ));
+
+        // when
+        List<PostResponse> posts = postService.getList();
+
+        // then
+        assertEquals(2L, posts.size());
     }
 
 }

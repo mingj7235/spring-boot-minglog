@@ -1,6 +1,5 @@
 package com.minglog.api.controller;
 
-import com.minglog.api.domain.Post;
 import com.minglog.api.request.PostCreate;
 import com.minglog.api.response.PostResponse;
 import com.minglog.api.service.PostService;
@@ -9,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -20,6 +20,11 @@ public class PostController {
     @PostMapping("/posts")
     public void post(@RequestBody @Valid PostCreate request){
         postService.write(request);
+    }
+
+    @GetMapping("/posts")
+    public List<PostResponse> getList () {
+        return postService.getList();
     }
 
     @GetMapping("/posts/{postId}")
