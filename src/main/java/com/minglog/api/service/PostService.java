@@ -6,6 +6,9 @@ import com.minglog.api.request.PostCreate;
 import com.minglog.api.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,8 +41,17 @@ public class PostService {
                 .build();
     }
 
-    public List<PostResponse> getList() {
-        return postRepository.findAll().stream()
+    /**
+     * Paging 안하면..
+     *
+     * 글이 너무 많은 경우에 비용이 많이든다.
+     * 1. DB에 너무 많은 글을 한번에 조회 시도 할 시, DB 가 뻗을 수 있다.
+     * 2. WAS 로 전달하는 시간에 대한 트래픽 비용이 많이 발생 할 수 있다.
+     */
+
+    public List<PostResponse> getList(Pageable pageable) {
+//        Pageable pageable = PageRequest.of(page, 5, Sort.by("id").descending());
+        return postRepository.findAll(pageable).stream()
                 .map(PostResponse::new)
                 .collect(Collectors.toList());
     }
