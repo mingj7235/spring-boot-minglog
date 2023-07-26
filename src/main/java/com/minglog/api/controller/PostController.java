@@ -1,6 +1,7 @@
 package com.minglog.api.controller;
 
 import com.minglog.api.request.PostCreate;
+import com.minglog.api.request.PostEdit;
 import com.minglog.api.request.PostSearch;
 import com.minglog.api.response.PostResponse;
 import com.minglog.api.service.PostService;
@@ -32,4 +33,11 @@ public class PostController {
     public PostResponse get(@PathVariable Long postId) {
         return postService.get(postId);
     }
+
+    @PatchMapping("/posts/{postId}")
+    public PostResponse edit(@PathVariable Long postId, @RequestBody @Valid PostEdit request) {
+        return postService.edit(postId, request);
+    }
+
+
 }

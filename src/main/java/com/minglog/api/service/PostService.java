@@ -1,13 +1,16 @@
 package com.minglog.api.service;
 
 import com.minglog.api.domain.Post;
+import com.minglog.api.domain.PostEditor;
 import com.minglog.api.repository.PostRepository;
 import com.minglog.api.request.PostCreate;
+import com.minglog.api.request.PostEdit;
 import com.minglog.api.request.PostSearch;
 import com.minglog.api.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,6 +54,26 @@ public class PostService {
         return postRepository.getList(postSearch).stream()
                 .map(PostResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public PostResponse edit(Long id, PostEdit postEdit) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 글입니다."));
+
+        PostEditor.PostEditorBuilder builder = post.toEditor();
+
+        if (postEdit.getTitle() != null) {
+            builder.title(postEdit.getTitle());
+        }
+
+        if (postEdit.getContent() != null) {
+            builder.content(postEdit.getContent());
+        }
+
+        post.edit(builder.build());
+
+        return new PostResponse(post);
     }
 
 }
