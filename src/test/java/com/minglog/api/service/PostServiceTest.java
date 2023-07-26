@@ -110,6 +110,7 @@ class PostServiceTest {
 
         PostEdit postEdit = PostEdit.builder()
                 .title("밍밍 제목")
+                .content("게시판 내용")
                 .build();
 
         // when
@@ -133,6 +134,7 @@ class PostServiceTest {
         postRepository.save(post);
 
         PostEdit postEdit = PostEdit.builder()
+                .title(null)
                 .content("수정")
                 .build();
 
@@ -144,5 +146,6 @@ class PostServiceTest {
                 .orElseThrow(() -> new IllegalStateException("글이 존재하지 않습니다. id=" + post.getId()));
 
         assertEquals("수정", changedPost.getContent());
+        assertEquals("게시판 제목", changedPost.getTitle());
     }
 }
