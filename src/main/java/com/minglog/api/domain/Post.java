@@ -1,5 +1,6 @@
 package com.minglog.api.domain;
 
+import com.minglog.api.request.PostEdit;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,14 +28,14 @@ public class Post {
         this.content = content;
     }
 
-    public PostEditor.PostEditorBuilder toEditor() {
-        return PostEditor.builder()
-                .title(title)
-                .content(content);
-    }
+    public void edit(final PostEdit postEdit) {
 
-    public void edit(final PostEditor postEditor) {
-        title = postEditor.getTitle();
-        content = postEditor.getContent();
+        if (postEdit.getTitle() != null) {
+            title = postEdit.getTitle();
+        }
+
+        if (postEdit.getContent() != null) {
+            content = postEdit.getContent();
+        }
     }
 }
