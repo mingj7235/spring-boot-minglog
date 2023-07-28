@@ -61,17 +61,7 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 글입니다."));
 
-        PostEditor.PostEditorBuilder builder = post.toEditor();
-
-        if (postEdit.getTitle() != null) {
-            builder.title(postEdit.getTitle());
-        }
-
-        if (postEdit.getContent() != null) {
-            builder.content(postEdit.getContent());
-        }
-
-        post.edit(builder.build());
+        post.edit(postEdit);
 
         return new PostResponse(post);
     }
