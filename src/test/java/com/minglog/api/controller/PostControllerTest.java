@@ -140,7 +140,7 @@ class PostControllerTest {
     @DisplayName("글 여러개 조회")
     void test5() throws Exception {
         // given
-        List<Post> requestPosts = IntStream.range(1, 31) //for (int = 0; i < 30; i++)
+        List<Post> requestPosts = IntStream.range(0, 30) //for (int = 0; i < 30; i++)
                 .mapToObj(i -> Post.builder()
                         .title("게시판 제목 - " + i)
                         .content("게시판 내용 - " + i)
@@ -164,7 +164,7 @@ class PostControllerTest {
     @DisplayName("페이지를 0으로 요청하면 첫 페이지를 가져온다.")
     void test6() throws Exception {
         // given
-        List<Post> requestPosts = IntStream.range(1, 31) //for (int = 0; i < 30; i++)
+        List<Post> requestPosts = IntStream.range(0, 30) //for (int = 0; i < 30; i++)
                 .mapToObj(i -> Post.builder()
                         .title("게시판 제목 - " + i)
                         .content("게시판 내용 - " + i)
@@ -224,5 +224,57 @@ class PostControllerTest {
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 게시글 조회")
+    void test9 () throws Exception {
+        // expected
+        mockMvc.perform(get("/posts/{postId}", 1L)
+                        .contentType(APPLICATION_JSON)
+                )
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 게시글 수정")
+    void test10 () throws Exception {
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("게시판 수정")
+                .content("게시판 내용")
+                .build();
+
+        String json = objectMapper.writeValueAsString(postEdit);
+
+        // expected
+        mockMvc.perform(patch("/posts/{postId}", 1L)
+                        .contentType(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("게시글 작성시 제목에 '바보'는 포함 될 수 없다")
+    void test11() throws Exception {
+        // given
+
+        PostCreate postCreate = PostCreate.builder()
+                .title("나는 바보 입니다.")
+                .content("내용입니다.")
+                .build();
+
+        String json = objectMapper.writeValueAsString(postCreate);
+
+        // when
+        mockMvc.perform(post("/posts")
+                        .contentType(APPLICATION_JSON)
+                        .content(json)
+                )
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+
     }
 }
