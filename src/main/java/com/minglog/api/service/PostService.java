@@ -2,6 +2,7 @@ package com.minglog.api.service;
 
 import com.minglog.api.domain.Post;
 import com.minglog.api.domain.PostEditor;
+import com.minglog.api.exception.PostNotFound;
 import com.minglog.api.repository.PostRepository;
 import com.minglog.api.request.PostCreate;
 import com.minglog.api.request.PostEdit;
@@ -33,7 +34,7 @@ public class PostService {
 
     public PostResponse get(final Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 글 입니다."));
+                .orElseThrow(PostNotFound::new);
 
         return PostResponse.builder()
                 .id(post.getId())
@@ -59,7 +60,7 @@ public class PostService {
     @Transactional
     public PostResponse edit(Long id, PostEdit postEdit) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 글입니다."));
+                .orElseThrow(PostNotFound::new);
 
         post.edit(postEdit);
 
@@ -68,7 +69,7 @@ public class PostService {
 
     public void delete(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 글입니다"));
+                .orElseThrow(PostNotFound::new);
         postRepository.delete(post);
     }
 }
