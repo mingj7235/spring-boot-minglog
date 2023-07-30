@@ -1,5 +1,6 @@
 package com.minglog.api.controller;
 
+import com.minglog.api.exception.InvalidRequest;
 import com.minglog.api.request.PostCreate;
 import com.minglog.api.request.PostEdit;
 import com.minglog.api.request.PostSearch;
@@ -21,6 +22,7 @@ public class PostController {
 
     @PostMapping("/posts")
     public void post(@RequestBody @Valid PostCreate request){
+        request.validate();
         postService.write(request);
     }
 
