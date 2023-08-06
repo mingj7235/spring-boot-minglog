@@ -50,10 +50,10 @@ public class PostControllerDocTest {
                 .content("내용")
                 .build();
 
-        postRepository.save(requestPost);
+        Post post = postRepository.save(requestPost);
 
         // expected
-        mockMvc.perform(get("/posts/{postId}", 1L)
+        mockMvc.perform(get("/posts/{postId}", post.getId())
                         .accept(APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

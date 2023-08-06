@@ -19,8 +19,10 @@ export default defineConfig({
         proxy: {
             "/my-backend-api": {
                 target: "http://localhost:8080",
-                rewrite: (path) => path.replace(/^\/my-backend-api/, ""),
             }
         }
+    },
+    build: {
+        outDir: "../src/main/resources/static",
     }
 })
