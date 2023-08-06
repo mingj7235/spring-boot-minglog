@@ -1,6 +1,5 @@
 package com.minglog.api.controller;
 
-import com.minglog.api.exception.InvalidRequest;
 import com.minglog.api.request.PostCreate;
 import com.minglog.api.request.PostEdit;
 import com.minglog.api.request.PostSearch;
@@ -20,14 +19,24 @@ public class PostController {
 
     private final PostService postService;
 
+    @GetMapping("/test")
+    public String test () {
+        return "hello";
+    }
+
+    @GetMapping("/foo")
+    public String foo () {
+        return "foo";
+    }
+
     @PostMapping("/posts")
-    public void post(@RequestBody @Valid PostCreate request){
+    public void post(@RequestBody @Valid PostCreate request) {
         request.validate();
         postService.write(request);
     }
 
     @GetMapping("/posts")
-    public List<PostResponse> getList (@ModelAttribute PostSearch postSearch) {
+    public List<PostResponse> getList(@ModelAttribute PostSearch postSearch) {
         return postService.getList(postSearch);
     }
 
@@ -37,8 +46,8 @@ public class PostController {
     }
 
     @PatchMapping("/posts/{postId}")
-    public PostResponse edit(@PathVariable Long postId, @RequestBody @Valid PostEdit request) {
-        return postService.edit(postId, request);
+    public void edit(@PathVariable Long postId, @RequestBody @Valid PostEdit request) {
+        postService.edit(postId, request);
     }
 
     @DeleteMapping("/posts/{postId}")

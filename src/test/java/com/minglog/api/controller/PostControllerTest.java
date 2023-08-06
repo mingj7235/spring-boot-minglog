@@ -41,27 +41,7 @@ class PostControllerTest {
         postRepository.deleteAll();
     }
 
-    @Test
-    @DisplayName("post method 테스트 - content type 이 json 인경우 ")
-    void post_test_json() throws Exception {
-        // given
 
-        PostCreate postCreate = PostCreate.builder()
-                .title("제목입니다.")
-                .content("내용입니다.")
-                .build();
-
-        String json = objectMapper.writeValueAsString(postCreate);
-
-        mockMvc.perform(post("/posts")
-                        .contentType(APPLICATION_JSON)
-                        .content(json)
-                )
-                .andExpect(status().isOk())
-                .andExpect(content().string(""))
-                .andDo(print());
-
-    }
 
     @Test
     @DisplayName("/posts 요청시 예외처리를 exception hander 에서 진행")
@@ -83,10 +63,9 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("/posts 요청시 db 에 값이 저장된다.")
+    @DisplayName("글 작성 요청시 DB 에 값이 저장된다.")
     void post_test_db_save() throws Exception {
         // given
-
         PostCreate postCreate = PostCreate.builder()
                 .title("제목입니다.")
                 .content("내용입니다.")
@@ -98,6 +77,7 @@ class PostControllerTest {
         mockMvc.perform(post("/posts")
                         .contentType(APPLICATION_JSON)
                         .content(json)
+                        .header("authorization", "minglog")
                 )
                 .andExpect(status().isOk())
                 .andDo(print());
