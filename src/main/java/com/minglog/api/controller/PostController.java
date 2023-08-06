@@ -1,5 +1,6 @@
 package com.minglog.api.controller;
 
+import com.minglog.api.config.data.UserSession;
 import com.minglog.api.request.PostCreate;
 import com.minglog.api.request.PostEdit;
 import com.minglog.api.request.PostSearch;
@@ -19,14 +20,15 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/test")
-    public String test () {
-        return "hello";
+    @GetMapping("/foo")
+    public String foo (UserSession userSession) {
+        log.info(">>> {}", userSession.name);
+        return userSession.name;
     }
 
-    @GetMapping("/foo")
-    public String foo () {
-        return "foo";
+    @GetMapping("/bar")
+    public String bar () {
+        return "인증 노필요";
     }
 
     @PostMapping("/posts")
