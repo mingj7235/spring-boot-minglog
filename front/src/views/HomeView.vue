@@ -4,7 +4,7 @@ import {ref} from "vue";
 
 const posts = ref([]);
 
-axios.get("/my-backend-api/posts?page=1&size=5")
+axios.get("/posts?page=1&size=5")
     .then(response => {
       response.data.forEach((r: any) => {
         posts.value.push(r);

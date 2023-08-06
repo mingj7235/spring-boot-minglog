@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import {ref, defineProps} from "vue";
 import axios from "axios";
 import {useRouter} from "vue-router";
-import {defineProps} from "vue/dist/vue";
 
 const router = useRouter();
 
@@ -19,13 +18,13 @@ const props = defineProps({
   }
 });
 
-axios.get(`/my-backend-api/posts/${props.postId}`)
+axios.get(`/posts/${props.postId}`)
     .then(response => {
       post.value = response.data
     })
 
 const edit = () => {
-  axios.patch(`/my-backend-api/posts/${props.postId}`, post.value)
+  axios.patch(`/posts/${props.postId}`, post.value)
       .then(() => {
         router.replace({name : "home"})
       })
