@@ -58,13 +58,11 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponse edit(Long id, PostEdit postEdit) {
+    public void edit(Long id, PostEdit postEdit) {
         Post post = postRepository.findById(id)
                 .orElseThrow(PostNotFound::new);
 
         post.edit(postEdit);
-
-        return new PostResponse(post);
     }
 
     public void delete(Long id) {

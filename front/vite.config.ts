@@ -17,7 +17,7 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            "/my-backend-api": {
+            "/": {
                 target: "http://localhost:8080",
             }
         }
