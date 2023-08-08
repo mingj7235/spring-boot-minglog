@@ -1,0 +1,1 @@
+insert into `User` (name, email, password, createdAt) values ('joshua', 'ming7235@gmail.com', '1234', '2023-08-08 12:09:00')
