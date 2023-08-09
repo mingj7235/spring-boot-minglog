@@ -35,6 +35,7 @@ const edit = () => {
 <template>
   <div>
     <el-input v-model="post.title"/>
+    <div></div>
   </div>
 
   <div class="mt-2">
