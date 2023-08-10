@@ -41,8 +41,6 @@ class PostControllerTest {
         postRepository.deleteAll();
     }
 
-
-
     @Test
     @DisplayName("/posts 요청시 예외처리를 exception hander 에서 진행")
     void post_test_exception_handler() throws Exception {
