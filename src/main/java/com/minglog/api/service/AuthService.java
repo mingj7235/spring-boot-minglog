@@ -1,6 +1,5 @@
 package com.minglog.api.service;
 
-import com.minglog.api.domain.Session;
 import com.minglog.api.domain.User;
 import com.minglog.api.exception.InvalidSigninInformation;
 import com.minglog.api.repository.UserRepository;
@@ -16,13 +15,11 @@ public class AuthService {
     private final UserRepository userRepository;
 
     @Transactional
-    public String signIn (Login login) {
+    public Long signIn (Login login) {
         User user = userRepository.findByEmailAndPassword(login.getEmail(), login.getPassword())
                 .orElseThrow(InvalidSigninInformation::new);
 
-        Session session = user.addSession();
-
-        return session.getAccessToken();
+        return user.getId();
     }
 
 }
