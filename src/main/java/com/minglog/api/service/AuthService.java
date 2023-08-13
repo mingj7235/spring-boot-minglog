@@ -1,6 +1,7 @@
 package com.minglog.api.service;
 
 import com.minglog.api.crypto.PasswordEncoder;
+import com.minglog.api.crypto.ScryptPasswordEncoder;
 import com.minglog.api.domain.User;
 import com.minglog.api.exception.AlreadyExistsEmailException;
 import com.minglog.api.exception.InvalidSigninInformation;
@@ -26,7 +27,7 @@ public class AuthService {
 
         User user = userRepository.findByEmail(login.getEmail())
                 .orElseThrow(InvalidSigninInformation::new);
-        PasswordEncoder encoder = new PasswordEncoder();
+        ScryptPasswordEncoder encoder = new ScryptPasswordEncoder();
 
         if (!encoder.matches(login.getPassword(), user.getPassword())) {
             throw new InvalidSigninInformation();
