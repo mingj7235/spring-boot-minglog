@@ -1,5 +1,6 @@
 package com.minglog.api.service;
 
+import com.minglog.api.crypto.PasswordEncoder;
 import com.minglog.api.domain.User;
 import com.minglog.api.exception.AlreadyExistsEmailException;
 import com.minglog.api.exception.InvalidSigninInformation;
@@ -7,7 +8,6 @@ import com.minglog.api.repository.UserRepository;
 import com.minglog.api.request.Login;
 import com.minglog.api.request.Signup;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +19,18 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
+    private final PasswordEncoder encoder;
+
     @Transactional
     public Long signIn (Login login) {
-        User user = userRepository.findByEmailAndPassword(login.getEmail(), login.getPassword())
+
+        User user = userRepository.findByEmail(login.getEmail())
                 .orElseThrow(InvalidSigninInformation::new);
+        PasswordEncoder encoder = new PasswordEncoder();
+
+        if (!encoder.matches(login.getPassword(), user.getPassword())) {
+            throw new InvalidSigninInformation();
+        }
 
         return user.getId();
     }
@@ -34,8 +42,7 @@ public class AuthService {
             throw new AlreadyExistsEmailException();
         }
 
-        SCryptPasswordEncoder sCryptPasswordEncoder = new SCryptPasswordEncoder(32, 8, 1, 32, 64);
-        String encryptedPassword = sCryptPasswordEncoder.encode(signup.getPassword());
+        String encryptedPassword = encoder.encrypt(signup.getPassword());
 
         User user = User.builder()
                 .name(signup.getName())
