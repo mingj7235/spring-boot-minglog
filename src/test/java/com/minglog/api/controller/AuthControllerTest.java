@@ -6,6 +6,7 @@ import com.minglog.api.domain.User;
 import com.minglog.api.repository.SessionRepository;
 import com.minglog.api.repository.UserRepository;
 import com.minglog.api.request.Login;
+import com.minglog.api.request.Signup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -144,6 +145,25 @@ class AuthControllerTest {
                         .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isUnauthorized())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원가입")
+    void test6() throws Exception {
+        // given
+        Signup signup = Signup.builder()
+                .name("ming")
+                .password("1234")
+                .email("joshuara7235@gmail.com")
+                .build();
+
+        // when
+        mockMvc.perform(post("/auth/signup")
+                        .content(objectMapper.writeValueAsString(signup))
+                        .contentType(APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 }
