@@ -1,5 +1,6 @@
 package com.minglog.api.controller;
 
+import com.minglog.api.config.AppConfig;
 import com.minglog.api.request.Login;
 import com.minglog.api.response.SessionResponse;
 import com.minglog.api.service.AuthService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
+import java.util.Date;
 
 @Slf4j
 @RestController
@@ -20,22 +22,19 @@ import java.util.Base64;
 public class AuthController {
 
     private final AuthService authService;
+    private final AppConfig appConfig;
 
-    /**
-     byte[] encodedKey = key.getEncoded();
-     String StrKey = Base64.getEncoder().encodeToString(encodedKey);
-     */
-    private final String KEY = "y1wG2au2rlAL6qRUX0sbwR7VuCuRYToE7Sv5ih3lyKI=";
 
     @PostMapping("/auth/login")
     public SessionResponse login (@RequestBody Login login) {
         Long userId = authService.signIn(login);
 
-        SecretKey key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(KEY));
+        SecretKey key = Keys.hmacShaKeyFor(appConfig.getJwtkey());
 
         String jws = Jwts.builder()
                 .setSubject(String.valueOf(userId))
                 .signWith(key)
+                .setIssuedAt(new Date())
                 .compact();
 
         return new SessionResponse(jws);

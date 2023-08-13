@@ -23,8 +23,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class AuthResolver implements HandlerMethodArgumentResolver {
 
     private final SessionRepository sessionRepository;
-    private static final String KEY = "y1wG2au2rlAL6qRUX0sbwR7VuCuRYToE7Sv5ih3lyKI=";
-
+    private final AppConfig appConfig;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -43,7 +42,7 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
-                    .setSigningKey(KEY)
+                    .setSigningKey(appConfig.getJwtkey())
                     .build()
                     .parseClaimsJws(jws);
 

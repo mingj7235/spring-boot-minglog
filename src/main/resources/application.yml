@@ -30,3 +30,6 @@ spring:
   sql:
     init:
       mode: never
+
+minglog:
+  jwt-key: "y1wG2au2rlAL6qRUX0sbwR7VuCuRYToE7Sv5ih3lyKI="
