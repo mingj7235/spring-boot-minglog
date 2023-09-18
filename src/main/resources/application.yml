@@ -26,5 +26,9 @@ spring:
         one-indexed-parameters: true # pageable 할 때 첫번째 page 를 0 이 아닌 1 부터 시작 하겠다는 설정
         default-page-size: 5
 
+  session:
+    store-type: jdbc
+    jdbc.initialize-schema: always
+
 minglog:
   jwt-key: "y1wG2au2rlAL6qRUX0sbwR7VuCuRYToE7Sv5ih3lyKI="
